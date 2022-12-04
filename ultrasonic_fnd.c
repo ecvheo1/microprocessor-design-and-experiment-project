@@ -17,7 +17,9 @@ int main(void) {
     unsigned int distance;     //거리 변수
     int i;
     
-    DDRB = 0x10;     //버저 출력
+    DDRC = 0xff;    //FND 출력
+    DDRG = 0x0f;    //FND 출력
+    DDRB = 0x10;    //버저 출력
     DDRE = ((DDRE|(1<<TRIG)) & ~(1<<ECHO)); //TRIG = 출력 , ECHO = 입력 setting
     
     while (1) {
@@ -42,7 +44,7 @@ int main(void) {
 
         distance = (unsigned int)(SOUND_VELOCITY * (TCNT1 * 4 / 2) / 1000);     //거리=속도x시간, 거리 단위는 1mm
 
-        display_fnd(distance) //FND에 거리 출력
+        display_fnd(distance); //FND에 거리 출력
 
         if (distance < 300) {     //30cm 이내 장애물
 
