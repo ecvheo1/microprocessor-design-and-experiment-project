@@ -6,6 +6,10 @@
 #define ECHO 7     //Echo 신호 (입력 = PE7)
 #define SOUND_VELOCITY 340UL //소리 속도 (m/sec)
 
+unsigned char digit[10] = {0x3f, 0x06, 0x5b, 0x4f, 0x66, 0x6d, 0x7c, 0x07, 0x7f, 0x67};
+unsigned char fnd_sel[4] = {0x01, 0x02, 0x04, 0x08};
+unsigned char fnd[4];
+
 void display_fnd(unsigned int distance);
 
 int main(void) {
