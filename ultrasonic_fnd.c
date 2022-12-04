@@ -42,6 +42,8 @@ int main(void) {
 
         distance = (unsigned int)(SOUND_VELOCITY * (TCNT1 * 4 / 2) / 1000);     //거리=속도x시간, 거리 단위는 1mm
 
+        display_fnd(distance) //FND에 거리 출력
+
         if (distance < 300) {     //30cm 이내 장애물
 
             for (i = 0; i < 5; i++) {    //연속하여 "삐~" 지속
