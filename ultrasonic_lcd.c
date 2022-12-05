@@ -9,6 +9,8 @@
 #define SOUND_VELOCITY 340UL //소리 속도 (m/sec)
 
 #include "lcd.h"
+
+void display_lcd(unsigned int distance);
  
 // C 언어의 주 실행 함수
 int main(void){
@@ -19,12 +21,12 @@ int main(void){
     DDRC = 0B11111111;
  
     LCD_Init(); // 텍스트 LCD 초기화 - 함수 호출
-    // LCD_wBCommand(0x80 | 0x00); // DDRAM Address = 0 설정
-    // LCD_wString("HELLO"); // 텍스트 LCD 문자열 출력
+    LCD_wBCommand(0x80 | 0x00); // DDRAM Address = 0 설정
+    LCD_wString("HELLO"); // 텍스트 LCD 문자열 출력
  
-    // LCD_wBCommand(0x80 | 0x40);  // DDRAM Address = 0x40 설정
+    LCD_wBCommand(0x80 | 0x40);  // DDRAM Address = 0x40 설정
     // WESNET 문자열 출력
-    // LCD_wString("WORLD!");
+    LCD_wString("WORLD!");
    
     unsigned int distance; // 거리 변수
     int i;
@@ -51,6 +53,8 @@ int main(void){
         TCCR1B = 0x00; // Timer/Counter1 클록 정지(클록 입력 차단,CS11~CS10=000)
 
         distance = (unsigned int)(SOUND_VELOCITY * (TCNT1 * 4 / 2) / 1000); // 거리=속도x시간, 거리 단위는 1mm
+
+        display_lcd(distance);
 
         if (distance < 300) { //30cm 이내 장애물
             for (i = 0; i < 5; i++) { // 연속하여 "삐~" 지속
