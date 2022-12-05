@@ -14,19 +14,11 @@ void display_lcd(unsigned int distance);
  
 // C 언어의 주 실행 함수
 int main(void){
-    // 포트 A의 방향 설정, 0 : 입력, 1 : 출력
-    DDRA = 0B11111111;
- 
-    // 포트 C의 방향 설정, 0 : 입력, 1 : 출력
-    DDRC = 0B11111111;
+    
+    DDRA = 0B11111111; // 포트 A의 방향 설정, 0 : 입력, 1 : 출력
+    DDRC = 0B11111111; // 포트 C의 방향 설정, 0 : 입력, 1 : 출력
  
     LCD_Init(); // 텍스트 LCD 초기화 - 함수 호출
-    LCD_wBCommand(0x80 | 0x00); // DDRAM Address = 0 설정
-    LCD_wString("HELLO"); // 텍스트 LCD 문자열 출력
- 
-    LCD_wBCommand(0x80 | 0x40);  // DDRAM Address = 0x40 설정
-    // WESNET 문자열 출력
-    LCD_wString("WORLD!");
    
     unsigned int distance; // 거리 변수
     int i;
@@ -98,6 +90,6 @@ void display_lcd(unsigned int distance) {
     LCD_wBCommand(0x80 | 0x00);  // DDRAM Address = 0 설정
     LCD_wString("DISTANCE IS");  // 텍스트 LCD 문자열 출력
 
-    LCD_wBCommand(0x80 | 0x40);
+    LCD_wBCommand(0x80 | 0x40); // DDRAM Address = 0x40 설정
     LCD_wString(s1); // 거리 출력
 }
