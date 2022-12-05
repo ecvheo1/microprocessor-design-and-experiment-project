@@ -3,6 +3,7 @@
 #include <util/delay.h> // _delay_ms() 함수 등이 정의되어 있음
 
 #include <stdio.h>
+#include <string.h>
 
 #define TRIG 6     //Trigger 신호 (출력 = PE6)
 #define ECHO 7     //Echo 신호 (입력 = PE7)
@@ -10,7 +11,8 @@
 
 #include "lcd.h"
 
-void display_lcd(unsigned int distance);
+void display_distance_lcd(unsigned int distance);
+void display_ok_lcd();
  
 // C 언어의 주 실행 함수
 int main(void){
@@ -46,9 +48,8 @@ int main(void){
 
         distance = (unsigned int)(SOUND_VELOCITY * (TCNT1 * 4 / 2) / 1000); // 거리=속도x시간, 거리 단위는 1mm
 
-        display_lcd(distance);
-
         if (distance < 300) { //30cm 이내 장애물
+            display_distance_lcd(distance);
             for (i = 0; i < 5; i++) { // 연속하여 "삐~" 지속
                 PORTB=0x10;
                 _delay_ms(1);
@@ -57,6 +58,7 @@ int main(void){
                 _delay_ms(1);
             }
         } else if (distance < 600) { // 60cm 이내 장애물
+            display_distance_lcd(distance);
             for (i = 0; i < 50; i++) { // 0.1초 동안 "삐~"
                 PORTB=0x10;
                 _delay_ms(1);
@@ -66,6 +68,7 @@ int main(void){
             }
             _delay_ms(100); // 0.1초 동안 묵음
         } else if (distance < 1000) { // 1m 이내 장애물
+            display_distance_lcd(distance);
             for (i = 0; i < 250; i++) { // 0.5초동안 "삐~"
                 PORTB=0x10;
                 _delay_ms(1);
@@ -74,16 +77,21 @@ int main(void){
                 _delay_ms(1);
             }
             _delay_ms(300); // 0.3초 동안 묵음
-        } else; // 1m 이내 장애물 없을 시 버저 울리지 않음
+        } else { // 1m 이내 장애물 없을 시 버저 울리지 않음
+            display_ok_lcd();
+      }
     }
     
     return 0; // 함수의 형태와 같이 정수형(int)의 값을 반환함
 }
 
-void display_lcd(unsigned int distance) {
+void display_distance_lcd(unsigned int distance) {
     unsigned int out = distance / 10;
+    char cm[4] = " CM";
     char s1[30];
     sprintf(s1, "%d", out);
+    strcat(s1, cm);
+
     LCD_wBCommand(0x01);
     _delay_ms(1.64);
 
@@ -92,4 +100,12 @@ void display_lcd(unsigned int distance) {
 
     LCD_wBCommand(0x80 | 0x40); // DDRAM Address = 0x40 설정
     LCD_wString(s1); // 거리 출력
+}
+
+void display_ok_lcd() {
+    LCD_wBCommand(0x01);
+    _delay_ms(1.64);
+
+    LCD_wBCommand(0x80 | 0x00);  // DDRAM Address = 0 설정
+    LCD_wString("IT'S OK!");  // 텍스트 LCD 문자열 출력
 }
