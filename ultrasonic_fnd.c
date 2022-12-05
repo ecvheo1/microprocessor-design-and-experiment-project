@@ -50,13 +50,13 @@ int main(void) {
 
             for (i = 0; i < 5; i++) {    //연속하여 "삐~" 지속
 
-            PORTB=0x10;
+                PORTB=0x10;
 
-            _delay_ms(1);
+                _delay_ms(1);
 
-            PORTB=0x00;
+                PORTB=0x00;
 
-            _delay_ms(1);
+                _delay_ms(1);
 
             }
 
@@ -80,13 +80,13 @@ int main(void) {
 
             for (i = 0; i < 250; i++) {     //0.5초동안 "삐~"
 
-            PORTB=0x10;
+                PORTB=0x10;
 
-            _delay_ms(1);
+                _delay_ms(1);
 
-            PORTB=0x00;
+                PORTB=0x00;
 
-            _delay_ms(1);
+                _delay_ms(1);
 
             }
 
